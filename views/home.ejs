@@ -1,0 +1,744 @@
+<!-- filepath: d:\Hacks\views\home.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fafafa;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #dbdbdb;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .navbar-content {
+            max-width: 975px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-logo img {
+            height: 40px;
+        }
+
+        .navbar-search input {
+            padding: 8px 16px;
+            background: #efefef;
+            border: none;
+            border-radius: 8px;
+            width: 268px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .navbar-icons {
+            display: flex;
+            gap: 22px;
+            align-items: center;
+        }
+
+        .navbar-icons svg {
+            cursor: pointer;
+        }
+
+        .navbar-icons .profile-pic {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            object-fit: cover;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 975px;
+            margin: 90px auto 0;
+            padding: 0 20px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .feed-section {
+            flex: 1;
+            max-width: 614px;
+        }
+
+        /* Welcome Message */
+        .welcome-message {
+            background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .welcome-message h2 {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .welcome-message p {
+            opacity: 0.9;
+        }
+
+        /* Stories */
+        .stories {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+        }
+
+        .stories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .story {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 66px;
+            cursor: pointer;
+        }
+
+        .story-ring {
+            width: 66px;
+            height: 66px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            padding: 3px;
+        }
+
+        .story-ring img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid white;
+            object-fit: cover;
+        }
+
+        .story span {
+            font-size: 12px;
+            margin-top: 5px;
+            max-width: 66px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Post */
+        .post {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .post-header {
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .post-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .post-header img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-header span {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .post-header svg {
+            cursor: pointer;
+        }
+
+        .post-image {
+            width: 100%;
+            max-height: 600px;
+            object-fit: cover;
+        }
+
+        .post-actions {
+            padding: 12px 16px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .post-actions svg {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .post-actions svg:hover {
+            transform: scale(1.1);
+        }
+
+        .post-actions .save {
+            margin-left: auto;
+        }
+
+        .post-likes {
+            padding: 0 16px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .post-caption {
+            padding: 8px 16px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .post-caption strong {
+            margin-right: 5px;
+        }
+
+        .post-comments {
+            padding: 0 16px;
+            font-size: 14px;
+            color: #8e8e8e;
+            cursor: pointer;
+        }
+
+        .post-time {
+            padding: 8px 16px 16px;
+            font-size: 10px;
+            color: #8e8e8e;
+            text-transform: uppercase;
+        }
+
+        .post-add-comment {
+            padding: 12px 16px;
+            border-top: 1px solid #efefef;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .post-add-comment input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .post-add-comment button {
+            background: none;
+            border: none;
+            color: #0095f6;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .post-add-comment button:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 319px;
+            position: sticky;
+            top: 90px;
+            height: fit-content;
+        }
+
+        .sidebar-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .sidebar-profile img {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .sidebar-profile-info {
+            flex: 1;
+        }
+
+        .sidebar-profile-info strong {
+            font-size: 14px;
+            display: block;
+        }
+
+        .sidebar-profile-info span {
+            font-size: 14px;
+            color: #8e8e8e;
+        }
+
+        .sidebar-profile button {
+            background: none;
+            border: none;
+            color: #0095f6;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .sidebar-profile button:hover {
+            color: #00376b;
+        }
+
+        .suggestions-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .suggestions-header span {
+            color: #8e8e8e;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .suggestions-header a {
+            font-size: 12px;
+            font-weight: 600;
+            color: #262626;
+            text-decoration: none;
+        }
+
+        .suggestion {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .suggestion img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .suggestion-info {
+            flex: 1;
+        }
+
+        .suggestion-info strong {
+            font-size: 14px;
+            display: block;
+        }
+
+        .suggestion-info span {
+            font-size: 12px;
+            color: #8e8e8e;
+        }
+
+        .suggestion button {
+            background: none;
+            border: none;
+            color: #0095f6;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .footer-links {
+            margin-top: 24px;
+            font-size: 11px;
+            color: #c7c7c7;
+            line-height: 1.8;
+        }
+
+        .footer-links a {
+            color: #c7c7c7;
+            text-decoration: none;
+            margin-right: 4px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 935px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .feed-section {
+                max-width: 100%;
+            }
+
+            .navbar-search {
+                display: none;
+            }
+        }
+
+        @media (max-width: 614px) {
+            .main-container {
+                padding: 0;
+            }
+
+            .post {
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+
+            .stories {
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+
+            .welcome-message {
+                border-radius: 0;
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-logo">
+                <a href="/home">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+                </a>
+            </div>
+
+            <div class="navbar-search">
+                <input type="text" placeholder="Search">
+            </div>
+
+            <div class="navbar-icons">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                </svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+                <img src="<%= user.profilePic %>" alt="Profile" class="profile-pic">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="feed-section">
+            <!-- Welcome Message -->
+            <div class="welcome-message">
+                <h2>🎉 Welcome, <%= user.username %>!</h2>
+                <p>You've successfully logged in to Instagram Clone</p>
+            </div>
+
+            <!-- Stories -->
+            <div class="stories">
+                <div class="story">
+                    <div class="story-ring">
+                        <img src="<%= user.profilePic %>" alt="Your Story">
+                    </div>
+                    <span>Your Story</span>
+                </div>
+                <div class="story">
+                    <div class="story-ring">
+                        <img src="https://i.pravatar.cc/150?img=1" alt="User">
+                    </div>
+                    <span>john_doe</span>
+                </div>
+                <div class="story">
+                    <div class="story-ring">
+                        <img src="https://i.pravatar.cc/150?img=2" alt="User">
+                    </div>
+                    <span>jane_smith</span>
+                </div>
+                <div class="story">
+                    <div class="story-ring">
+                        <img src="https://i.pravatar.cc/150?img=3" alt="User">
+                    </div>
+                    <span>mike_dev</span>
+                </div>
+                <div class="story">
+                    <div class="story-ring">
+                        <img src="https://i.pravatar.cc/150?img=4" alt="User">
+                    </div>
+                    <span>sarah_art</span>
+                </div>
+                <div class="story">
+                    <div class="story-ring">
+                        <img src="https://i.pravatar.cc/150?img=5" alt="User">
+                    </div>
+                    <span>alex_photo</span>
+                </div>
+                <div class="story">
+                    <div class="story-ring">
+                        <img src="https://i.pravatar.cc/150?img=6" alt="User">
+                    </div>
+                    <span>emma_travels</span>
+                </div>
+            </div>
+
+            <!-- Sample Posts -->
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-header-left">
+                        <img src="https://i.pravatar.cc/150?img=5" alt="User">
+                        <span>nature_photography</span>
+                    </div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
+                        <circle cx="5" cy="12" r="1"></circle>
+                    </svg>
+                </div>
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600" alt="Post" class="post-image">
+                <div class="post-actions">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                    </svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                    <svg class="save" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
+                <div class="post-likes">1,234 likes</div>
+                <div class="post-caption">
+                    <strong>nature_photography</strong> Beautiful mountain sunrise 🌄 The early morning hike was totally worth it! #nature #photography #mountains
+                </div>
+                <div class="post-comments">View all 89 comments</div>
+                <div class="post-time">2 hours ago</div>
+                <div class="post-add-comment">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                    <input type="text" placeholder="Add a comment...">
+                    <button disabled>Post</button>
+                </div>
+            </div>
+
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-header-left">
+                        <img src="https://i.pravatar.cc/150?img=8" alt="User">
+                        <span>travel_diaries</span>
+                    </div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
+                        <circle cx="5" cy="12" r="1"></circle>
+                    </svg>
+                </div>
+                <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600" alt="Post" class="post-image">
+                <div class="post-actions">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                    </svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                    <svg class="save" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
+                <div class="post-likes">856 likes</div>
+                <div class="post-caption">
+                    <strong>travel_diaries</strong> Exploring new places ✈️ This lake view is absolutely breathtaking! #travel #adventure #wanderlust
+                </div>
+                <div class="post-comments">View all 42 comments</div>
+                <div class="post-time">5 hours ago</div>
+                <div class="post-add-comment">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                    <input type="text" placeholder="Add a comment...">
+                    <button disabled>Post</button>
+                </div>
+            </div>
+
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-header-left">
+                        <img src="https://i.pravatar.cc/150?img=12" alt="User">
+                        <span>foodie_heaven</span>
+                    </div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
+                        <circle cx="5" cy="12" r="1"></circle>
+                    </svg>
+                </div>
+                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600" alt="Post" class="post-image">
+                <div class="post-actions">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                    </svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                    <svg class="save" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
+                <div class="post-likes">2,341 likes</div>
+                <div class="post-caption">
+                    <strong>foodie_heaven</strong> Homemade pizza night 🍕 Nothing beats fresh ingredients and a hot oven! #food #pizza #homemade
+                </div>
+                <div class="post-comments">View all 156 comments</div>
+                <div class="post-time">8 hours ago</div>
+                <div class="post-add-comment">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                    <input type="text" placeholder="Add a comment...">
+                    <button disabled>Post</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-profile">
+                <img src="<%= user.profilePic %>" alt="Profile">
+                <div class="sidebar-profile-info">
+                    <strong><%= user.username %></strong>
+                    <span><%= user.fullName || user.username %></span>
+                </div>
+                <button onclick="window.location.href='/logout'">Logout</button>
+            </div>
+
+            <div class="suggestions-header">
+                <span>Suggestions For You</span>
+                <a href="#">See All</a>
+            </div>
+
+            <div class="suggestion">
+                <img src="https://i.pravatar.cc/150?img=10" alt="User">
+                <div class="suggestion-info">
+                    <strong>alex_codes</strong>
+                    <span>Followed by john_doe</span>
+                </div>
+                <button>Follow</button>
+            </div>
+
+            <div class="suggestion">
+                <img src="https://i.pravatar.cc/150?img=11" alt="User">
+                <div class="suggestion-info">
+                    <strong>design_master</strong>
+                    <span>New to Instagram</span>
+                </div>
+                <button>Follow</button>
+            </div>
+
+            <div class="suggestion">
+                <img src="https://i.pravatar.cc/150?img=12" alt="User">
+                <div class="suggestion-info">
+                    <strong>food_lover</strong>
+                    <span>Followed by jane_smith</span>
+                </div>
+                <button>Follow</button>
+            </div>
+
+            <div class="suggestion">
+                <img src="https://i.pravatar.cc/150?img=15" alt="User">
+                <div class="suggestion-info">
+                    <strong>tech_guru</strong>
+                    <span>Suggested for you</span>
+                </div>
+                <button>Follow</button>
+            </div>
+
+            <div class="suggestion">
+                <img src="https://i.pravatar.cc/150?img=20" alt="User">
+                <div class="suggestion-info">
+                    <strong>fitness_pro</strong>
+                    <span>Followed by mike_dev</span>
+                </div>
+                <button>Follow</button>
+            </div>
+
+            <div class="footer-links">
+                <a href="#">About</a> · <a href="#">Help</a> · <a href="#">Press</a> · <a href="#">API</a> · <a href="#">Jobs</a> · <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Locations</a> · <a href="#">Language</a>
+                <p style="margin-top: 16px;">© 2024 INSTAGRAM CLONE - College Project</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enable/disable post button based on input
+        document.querySelectorAll('.post-add-comment input').forEach(input => {
+            const button = input.nextElementSibling;
+            input.addEventListener('input', () => {
+                button.disabled = input.value.trim() === '';
+            });
+        });
+    </script>
+</body>
+</html>
