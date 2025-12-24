@@ -21,28 +21,51 @@
             flex-direction: column;
         }
 
-        .signup-container {
+        .signup-box {
             width: 350px;
             background: white;
             border: 1px solid #dbdbdb;
             padding: 40px;
             text-align: center;
-        }
-
-        .signup-container img {
-            width: 175px;
+            border-radius: 1px;
             margin-bottom: 10px;
         }
 
-        .signup-container h2 {
+        .signup-box img {
+            width: 80px;
+            margin-bottom: 10px;
+        }
+
+        .signup-box h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-family: 'Segoe Script', cursive;
+        }
+
+        .signup-box h2 {
             color: #8e8e8e;
             font-size: 17px;
-            font-weight: 600;
+            font-weight: 500;
             margin-bottom: 20px;
             line-height: 1.4;
         }
 
-        .fb-signup {
+        .signup-box input {
+            width: 100%;
+            padding: 12px 10px;
+            margin: 5px 0;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            background: #fafafa;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .signup-box input:focus {
+            border-color: #a8a8a8;
+        }
+
+        .signup-box button {
             width: 100%;
             padding: 10px;
             background: #0095f6;
@@ -51,11 +74,18 @@
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
+            margin-top: 15px;
             font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .signup-box button:hover {
+            background: #0086e0;
+        }
+
+        .signup-box button:disabled {
+            background: #b2dffc;
+            cursor: not-allowed;
         }
 
         .divider {
@@ -76,49 +106,17 @@
             margin: 0 18px;
         }
 
-        .signup-container input {
-            width: 100%;
-            padding: 12px 10px;
-            margin: 5px 0;
-            border: 1px solid #dbdbdb;
-            border-radius: 3px;
-            background: #fafafa;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .signup-container input:focus {
-            border-color: #a8a8a8;
-        }
-
-        .signup-container button[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background: #0095f6;
-            border: none;
-            color: white;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-
-        .signup-container button:disabled {
-            background: #b2dffc;
-            cursor: not-allowed;
-        }
-
         .terms {
             font-size: 12px;
             color: #8e8e8e;
-            margin-top: 20px;
+            margin-top: 15px;
             line-height: 1.5;
         }
 
         .terms a {
             color: #8e8e8e;
             font-weight: 600;
+            text-decoration: none;
         }
 
         .login-box {
@@ -127,7 +125,6 @@
             border: 1px solid #dbdbdb;
             padding: 20px;
             text-align: center;
-            margin-top: 10px;
             font-size: 14px;
         }
 
@@ -145,7 +142,7 @@
         }
 
         .success-message {
-            color: #00a650;
+            color: #2ecc71;
             font-size: 14px;
             margin: 10px 0;
             display: none;
@@ -153,17 +150,10 @@
     </style>
 </head>
 <body>
-    <div class="signup-container">
+    <div class="signup-box">
         <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram Logo">
-        
+        <h1>Instagram</h1>
         <h2>Sign up to see photos and videos from your friends.</h2>
-
-        <button class="fb-signup">
-            <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
-                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
-            </svg>
-            Log in with Facebook
-        </button>
 
         <div class="divider">OR</div>
 
@@ -171,12 +161,10 @@
             <input type="email" id="email" name="email" placeholder="Email" required>
             <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
             <input type="text" id="username" name="username" placeholder="Username" required>
-            <input type="password" id="password" name="password" placeholder="Password" required minlength="6">
-            
+            <input type="password" id="password" name="password" placeholder="Password (6+ characters)" required minlength="6">
             <p class="error-message" id="errorMessage"></p>
             <p class="success-message" id="successMessage"></p>
-            
-            <button type="submit" id="signupBtn">Sign up</button>
+            <button type="submit" id="signupBtn">Sign Up</button>
         </form>
 
         <p class="terms">
@@ -202,12 +190,19 @@
             errorMessage.style.display = 'none';
             successMessage.style.display = 'none';
 
-            const formData = {
-                email: document.getElementById('email').value,
-                fullName: document.getElementById('fullName').value,
-                username: document.getElementById('username').value,
-                password: document.getElementById('password').value
-            };
+            const email = document.getElementById('email').value.trim();
+            const fullName = document.getElementById('fullName').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            // Validation
+            if (password.length < 6) {
+                errorMessage.textContent = 'Password must be at least 6 characters';
+                errorMessage.style.display = 'block';
+                signupBtn.disabled = false;
+                signupBtn.textContent = 'Sign Up';
+                return;
+            }
 
             try {
                 const response = await fetch('/api/signup', {
@@ -215,13 +210,13 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify({ email, fullName, username, password })
                 });
 
                 const data = await response.json();
 
                 if (data.success) {
-                    successMessage.textContent = 'Account created successfully!';
+                    successMessage.textContent = 'Account created! Redirecting...';
                     successMessage.style.display = 'block';
                     setTimeout(() => {
                         window.location.href = data.redirect;
@@ -230,13 +225,13 @@
                     errorMessage.textContent = data.error;
                     errorMessage.style.display = 'block';
                     signupBtn.disabled = false;
-                    signupBtn.textContent = 'Sign up';
+                    signupBtn.textContent = 'Sign Up';
                 }
             } catch (error) {
                 errorMessage.textContent = 'Something went wrong. Please try again.';
                 errorMessage.style.display = 'block';
                 signupBtn.disabled = false;
-                signupBtn.textContent = 'Sign up';
+                signupBtn.textContent = 'Sign Up';
             }
         });
     </script>
