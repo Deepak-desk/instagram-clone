@@ -37,7 +37,7 @@
         }
 
         .signup-box h1 {
-            font-size: 28px;
+            font-size: 32px;
             margin-bottom: 10px;
             font-family: 'Segoe Script', cursive;
         }
@@ -88,35 +88,11 @@
             cursor: not-allowed;
         }
 
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            margin: 20px 0;
+        .info-text {
             color: #8e8e8e;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .divider::before, .divider::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #dbdbdb;
-            margin: 0 18px;
-        }
-
-        .terms {
             font-size: 12px;
-            color: #8e8e8e;
             margin-top: 15px;
             line-height: 1.5;
-        }
-
-        .terms a {
-            color: #8e8e8e;
-            font-weight: 600;
-            text-decoration: none;
         }
 
         .login-box {
@@ -140,13 +116,6 @@
             margin: 10px 0;
             display: none;
         }
-
-        .success-message {
-            color: #2ecc71;
-            font-size: 14px;
-            margin: 10px 0;
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -155,20 +124,17 @@
         <h1>Instagram</h1>
         <h2>Sign up to see photos and videos from your friends.</h2>
 
-        <div class="divider">OR</div>
-
         <form id="signupForm">
-            <input type="email" id="email" name="email" placeholder="Email" required>
-            <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
-            <input type="text" id="username" name="username" placeholder="Username" required>
-            <input type="password" id="password" name="password" placeholder="Password (6+ characters)" required minlength="6">
+            <input type="text" id="email" name="email" placeholder="Enter any email" required>
+            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+            <input type="text" id="username" name="username" placeholder="Enter any username" required>
+            <input type="password" id="password" name="password" placeholder="Enter any password" required>
             <p class="error-message" id="errorMessage"></p>
-            <p class="success-message" id="successMessage"></p>
             <button type="submit" id="signupBtn">Sign Up</button>
         </form>
 
-        <p class="terms">
-            By signing up, you agree to our <a href="#">Terms</a>, <a href="#">Privacy Policy</a> and <a href="#">Cookies Policy</a>.
+        <p class="info-text">
+            ✨ Enter any details to continue
         </p>
     </div>
 
@@ -179,7 +145,6 @@
     <script>
         const signupForm = document.getElementById('signupForm');
         const errorMessage = document.getElementById('errorMessage');
-        const successMessage = document.getElementById('successMessage');
         const signupBtn = document.getElementById('signupBtn');
 
         signupForm.addEventListener('submit', async (e) => {
@@ -188,16 +153,14 @@
             signupBtn.disabled = true;
             signupBtn.textContent = 'Signing up...';
             errorMessage.style.display = 'none';
-            successMessage.style.display = 'none';
 
             const email = document.getElementById('email').value.trim();
             const fullName = document.getElementById('fullName').value.trim();
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
 
-            // Validation
-            if (password.length < 6) {
-                errorMessage.textContent = 'Password must be at least 6 characters';
+            if (!email || !fullName || !username || !password) {
+                errorMessage.textContent = 'Please fill in all fields';
                 errorMessage.style.display = 'block';
                 signupBtn.disabled = false;
                 signupBtn.textContent = 'Sign Up';
@@ -216,11 +179,7 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    successMessage.textContent = 'Account created! Redirecting...';
-                    successMessage.style.display = 'block';
-                    setTimeout(() => {
-                        window.location.href = data.redirect;
-                    }, 1000);
+                    window.location.href = data.redirect;
                 } else {
                     errorMessage.textContent = data.error;
                     errorMessage.style.display = 'block';
